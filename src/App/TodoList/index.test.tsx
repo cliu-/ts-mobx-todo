@@ -1,14 +1,11 @@
 import React from 'react';
-import * as UUID from 'short-uuid';
 import { fireEvent, screen, render } from '@testing-library/react';
 import TodoList from './index';
-import { IRootStore, RootStore, Todo } from '../../store';
+import { RootStore, Todo } from '../../store';
 
-const testAppStore: IRootStore = RootStore.create({
-  todoList: ['monster', 'boss black', 'caffe latte'].map((text) =>
-    Todo.create({ id: UUID.generate(), bodyText: text })
-  ),
-});
+const testAppStore: RootStore = new RootStore(
+  ['monster', 'boss black', 'caffe latte'].map((text) => new Todo(text))
+);
 
 test('should be render 3 todo items in initialAppState', () => {
   render(<TodoList path="/" appStore={testAppStore} />);

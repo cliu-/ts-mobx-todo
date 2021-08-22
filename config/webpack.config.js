@@ -437,6 +437,9 @@ module.exports = function (webpackEnv) {
                 // See #6846 for context on why cacheCompression is disabled
                 cacheCompression: false,
                 compact: isEnvProduction,
+                assumptions: {
+                  setPublicClassFields: false,
+                },
               },
             },
             // Process any JS outside of the app with Babel.

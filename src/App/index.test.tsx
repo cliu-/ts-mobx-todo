@@ -1,11 +1,10 @@
 import React from 'react';
-import * as UUID from 'short-uuid';
 import { fireEvent, screen, render } from '@testing-library/react';
-import { IRootStore, RootStore, Todo } from '../store';
+import { RootStore, Todo } from '../store';
 import App from './index';
 import { Route, BrowserRouter } from 'react-router-dom';
 
-const renderApp = (testAppStore: IRootStore) =>
+const renderApp = (testAppStore: RootStore) =>
   render(
     <BrowserRouter>
       <Route>
@@ -14,14 +13,12 @@ const renderApp = (testAppStore: IRootStore) =>
     </BrowserRouter>
   );
 
-const testAppStore: IRootStore = RootStore.create({
-  todoList: [
-    Todo.create({ id: UUID.generate(), bodyText: 'one', completed: false }),
-    Todo.create({ id: UUID.generate(), bodyText: 'two', completed: true }),
-    Todo.create({ id: UUID.generate(), bodyText: 'three', completed: false }),
-    Todo.create({ id: UUID.generate(), bodyText: 'four', completed: true }),
-  ],
-});
+const testAppStore: RootStore = new RootStore([
+  new Todo('one', false),
+  new Todo('two', true),
+  new Todo('three', false),
+  new Todo('four', true),
+]);
 
 test('should render correctly', () => {
   renderApp(testAppStore);

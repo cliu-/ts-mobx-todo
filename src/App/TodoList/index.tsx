@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react';
 import { observer } from 'mobx-react-lite';
 import Item from './Item';
 import { Layout } from './style';
-import { ITodo, PathParam, RootStoreProps } from '../../store';
+import { PathParam, RootStoreProps, Todo } from '../../store';
 
 const TodoList: React.FC<RootStoreProps & PathParam> = observer(
   ({ appStore, path }) => {
@@ -28,7 +28,7 @@ const TodoList: React.FC<RootStoreProps & PathParam> = observer(
           <label htmlFor="toggle-all">Mark all as complete</label>
           <ul className="todo-list" data-testid="todo-list">
             {appStore.todoList
-              .filter((todo: ITodo): boolean => {
+              .filter((todo: Todo): boolean => {
                 switch (path) {
                   case '/':
                     return true;
@@ -41,7 +41,7 @@ const TodoList: React.FC<RootStoreProps & PathParam> = observer(
                 }
               })
               .map(
-                (todo: ITodo): ReactElement => (
+                (todo: Todo): ReactElement => (
                   <Item key={todo.id} todo={todo} appStore={appStore} />
                 )
               )}

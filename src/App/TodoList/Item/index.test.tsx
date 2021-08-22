@@ -1,23 +1,12 @@
 import React from 'react';
 import { observer } from 'mobx-react-lite';
-import * as UUID from 'short-uuid';
 import { fireEvent, render, screen } from '@testing-library/react';
 import Item from './index';
-import {
-  IRootStore,
-  ITodo,
-  RootStore,
-  RootStoreProps,
-  Todo,
-} from '../../../store';
-import { onSnapshot } from 'mobx-state-tree';
+import { RootStore, RootStoreProps, Todo } from '../../../store';
 
-const testTodo: ITodo = Todo.create({
-  id: UUID.generate(),
-  bodyText: 'cut tomato',
-});
+const testTodo: Todo = new Todo('cut tomato');
 
-const testAppStore: IRootStore = RootStore.create({ todoList: [testTodo] });
+const testAppStore: RootStore = new RootStore([testTodo]);
 
 const App: React.FC<RootStoreProps> = observer(({ appStore }) => {
   if (appStore.todoList.length === 0) return null;
@@ -29,8 +18,6 @@ const App: React.FC<RootStoreProps> = observer(({ appStore }) => {
     </div>
   );
 });
-
-onSnapshot(testAppStore, (snapshot) => console.log(snapshot));
 
 test('should each initialAppstate todo object value is set to Item element', () => {
   render(<Item todo={testTodo} appStore={testAppStore} />);
@@ -122,10 +109,7 @@ test('delete todo item', () => {
 
 test('add todo item', () => {
   render(<App appStore={testAppStore} />);
-  const newTodo: ITodo = Todo.create({
-    id: UUID.generate(),
-    bodyText: 'cut tomato plush',
-  });
+  const newTodo: Todo = new Todo('cut tomato plush');
   testAppStore.add(newTodo);
 
   expect(screen.getAllByTestId('todo-item').length).toBe(1);

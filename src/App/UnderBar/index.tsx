@@ -19,7 +19,7 @@ const UnderBar: React.FC<RootStoreProps & PathParam> = observer(
 
           {appStore.completedCount > 0 && (
             <button
-              onClick={appStore.clearCompleted}
+              onClick={() => appStore.clearCompleted()}
               className="clear-completed"
               data-testid="todo-comlelted-clear"
               data-cy="clear-completed-button"
